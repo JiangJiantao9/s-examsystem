@@ -1,0 +1,41 @@
+{% extends 'data/base.html' %}
+{%block content%}
+<h1>Judge Answer!</h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    {%comment%}
+    <h4>Choice Questions:</h4>
+    {%for question in ans.choicequestion %}
+    	<p>{{forloop.counter}}.&nbsp{{question.question_text}}</p>
+                <ul class="list-inline">
+        		{%for choice in question.choicequestion.choice_set.all%}
+        			<li>{{choice.number}}:{{ choice.choice_text }}</li>
+        		{%endfor%}
+                </ul>
+        <p>ans:{{question.choicequestion.ans}}</p>
+        <p>author ans:{{}}</p>
+    {%endfor%}
+    <h4>Fill Questions:</h4>
+    {%for question in fillquestions %}
+        <p>{{forloop.counter}}.&nbsp{{question.choicequestion.question_text}}</p>
+        <p>ans:{{question.choicequestion.ans}}</p>
+        <p>mark:{{question.mark}}</p>
+    {%endfor%}
+    <h4>TF Questions:</h4>
+    {%for question in tfquestions %}
+        <p>{{forloop.counter}}.&nbsp{{question.tfquestion.question_text}}</p>
+        <p>ans:{{question.tfquestion.ans}}</p>
+        <p>mark:{{question.mark}}</p>
+    {%endfor%}
+    {%endcomment%}
+    <h4>SA Questions:</h4>
+    {%for question in saquestionans %}
+        <p>{{forloop.counter}}.&nbsp{{question.saquestion.question_text}}</p>
+        <p>ans:{{question.saquestion.ans}}</p>
+        <p>mark:{{question.mark}}</p>
+        <p>author ans:{{question.ans}}</p>
+        <p>score:<input type="text"  name = 'sa{{question.id}}'></p>
+    {%endfor%}
+    <button type="submit" name = 'submit' class="btn btn-primary center-block">提交</button>
+</form>
+{%endblock%}

@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+ <title></title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap-theme.min.css"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+
+{% extends 'data/base.html' %}
+{%block content%}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-md-6">
+{%if SelectQuestion%}
+    <h1>Question Select!</h1>  
+{%else%}
+    <h1>Question List</h1>
+{%endif%}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <button type="submit" class="btn btn-sm btn-primary">提交</button>
+</form>
+{%if style == 'select'%}
+    {%for question in questions%}
+    		<p>{{forloop.counter}}.&nbsp{{question.question_text}}</p>
+    		<p>{%for choice in question.choice_set.all%}
+    			{{choice.number}}:{{ choice.choice_text }}
+    		{%endfor%}</p>
+    		<p>ans:{{question.ans}}</p>
+            <p>author:
+            {%if question.user.username%}
+                {{question.user.username}}
+            {%else%}
+                NULL
+            {%endif%}</p>
+            {%if SelectQuestion%}
+                <form  action = "" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name = 'question_id' value={{question.id}}>
+                    <button type="submit" class="btn btn-sm btn-primary center-block">加入试卷</button>
+                </form>
+            {%endif%}
+    {%endfor%}                                                                                                                                              
+{%elif style == 'fill'%}
+    {%for question in questions%}
+        <p>{{forloop.counter}}.&nbsp{{question.question_text}}</p>
+        <p>{{question.ans}}</p>
+        {%if SelectQuestion%}
+            <form  action = '' method="POST">
+                {% csrf_token %}
+                <input type="hidden" name = 'question_id' value={{question.id}}>
+                <button type="submit" class="btn btn-sm btn-primary center-block">加入试卷</button>
+            </form>
+        {%endif%}
+    {%endfor%}
+{%elif style == 'tf'%}
+    {%for question in questions%}
+        <p>{{forloop.counter}}.&nbsp{{question.question_text}}</p>
+        <p>{%if question.ans%}是{%else%}否{%endif%}</p>
+        {%if SelectQuestion%}
+                <form  action = '' method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name = 'question_id' value={{question.id}}>
+                    <button type="submit" class="btn btn-sm btn-primary center-block">加入试卷</button>
+                </form>
+        {%endif%}
+    {%endfor%}
+{%elif style == 'sa'%}
+    {%for question in questions%}
+    <p>{{forloop.counter}}.&nbsp{{question.question_text}}</p>
+    <p>{{question.ans}}</p>
+    {%if SelectQuestion%}
+            <form  action = '' method="POST">
+                {% csrf_token %}
+                <input type="hidden" name = 'question_id' value={{question.id}}>
+                <button type="submit" class="btn btn-sm btn-primary center-block">加入试卷</button>
+            </form>
+    {%endif%}
+    {%endfor%}
+{%endif%}
+</form>
+<nav style="text-align: center">
+<ul class="pagination">
+{% if questions.has_previous %}
+        <li><a class='paginator' title='上一页' href='?page={{ questions.previous_page_number }}'><span>&lt;&lt;</span></a></li>
+{% endif %}
+{% for page in questions.paginator.page_range %}
+     {% if page = questions.number %}
+         <li><a class='paginator_current' title='当前页:{{ page }}'><span>{{ page }}</span></a></li>
+     {% else %}
+         <li><a class='paginator' href='?page={{ page }}' title='{{ page }}'><span>{{ page }}</span></a></li>
+     {% endif %}
+{% endfor %}
+{% if questions.has_next %}
+     <li><a class='paginator' title='下一页' href='?page={{ questions.next_page_number }}'><span>&gt;&gt;</span></a></li>
+{% endif %}
+</ul>
+</nav>
+</div>
+<div class="col-md-6">
+
+{%if SelectQuestion%}
+    {% include 'data/BaseExamDetail.html' %}
+{%endif%}
+{%if SelectQuestion%}
+    <h3>come to set mark for this exam</h3>
+    <td><a href="{%url 'data:SetMark' exam.id %}"><button type="button" class="btn btn-primary center-block">设置分数</button></a></td>
+{%endif%}
+{%endblock%}
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends 'data/base.html' %}
+{%block content%}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_table}}
+    <input type="submit" name ='submit' value="Submit" />
+{%if style ==  'select'%}
+	<h1>选择</h1>
+	{%for choicequestion in choicequestions%}
+		<p>{{forloop.counter}}.&nbsp{{choicequestion.question_text}}</p>
+		{%for choice in choicequestion.choice_set.all%}
+			{{choice.number}}:{{ choice.choice_text }}
+		{%endfor%}
+		<p>ans:{{choicequestion.ans}}</p>
+		{%empty%}
+		 <p>木有了！</p>
+	{%endfor%}
+{%elif style == 'fill'%}
+	<h1>填空</h1>
+		{%for fillquestion in fillquestions%}
+			<p>{{forloop.counter}}.&nbsp{{fillquestion.question_text}}</p>
+			<p>{{fillquestion.ans}}</p>
+		{%endfor%}
+{%endif%}
+	<input type="submit" name ='nextpage' value="nextpage"/>
+	<p></p>
+	{%for i in pagelist%}
+		<input type="submit" name ='jumppage' value={{i}}>
+		{%empty%}
+		就这一页啦!
+	{%endfor%}
+</form>
+{%endblock%}

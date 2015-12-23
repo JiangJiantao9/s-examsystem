@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+ <title></title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap-theme.min.css"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<style> 
+body{text-align:center} 
+</style>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="col-md-12">
+				<h1 class="text-center">
+					新建用户
+				</h1>
+
+				<form action="" method="post">
+				    <div class="control-group">
+					{% csrf_token %}
+    				{{ form.as_p}}
+    				</div>
+					<div>
+					 <button type="submit" class="btn btn-primary">登录</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+</body>

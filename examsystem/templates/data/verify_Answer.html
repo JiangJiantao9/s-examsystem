@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title></title>
+ <!-- 新 Bootstrap 核心 CSS 文件 -->
+ <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+ <!-- 可选的Bootstrap主题文件（一般不使用） -->
+ <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap-theme.min.css"></script>
+
+ <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+ <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+
+ <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+ <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+{% extends 'data/base.html' %}
+{%block content%}
+<p>答题验证！</p>
+{%for item in SelectNull%}
+	<p>选择题第{{item}}无答案！</p>
+{%empty%}
+	<p>选择题无漏答题目</p>
+{%endfor%}
+{%for item in FillNull%}
+	<p>填空题第{{item}}无答案！</p>
+{%empty%}
+	<p>填空题无漏答题目</p>
+{%endfor%}
+{%for item in TfNull%}
+	<p>判断题第{{item}}无答案！</p>
+{%empty%}
+	<p>判断题无漏答题目</p>
+{%endfor%}
+{%for item in SANull%}
+	<p>简答题第{{item}}无答案！</p>
+{%empty%}
+	<p>简答题无漏答题目</p>
+{%endfor%}
+<p>你可以选择：</p>
+	<li>修改作答（点击网页退格）</li>
+	<li>选择<a href="{%url 'data:ExamResult' exam.id%}">提交答案</a></li>
+{%endblock%}
+</body>
+</html>

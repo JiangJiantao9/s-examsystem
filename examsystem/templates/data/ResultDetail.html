@@ -1,0 +1,167 @@
+{% extends 'data/base.html' %}
+{%block content%}
+<a href="{%url 'data:ExamDetail' answer.exam.id %}">{{answer.exam}}</a>
+<h1 class="text-center">Result Detail</h1>
+{%comment%}
+<h4>Choice Questions:</h4>
+	{%for question in choicequestions %}
+	    <p>{{forloop.counter}}.&nbsp{{question.choicequestion.question_text}}</p>
+	            {%for choice in question.choicequestion.choice_set.all%}
+	                {{choice.number}}:{{ choice.choice_text }}
+	            {%endfor%}
+	    <p>ans:{{question.choicequestion.ans}}</p>
+	    <p>mark:{{question.mark}}</p>
+{%endfor%} 
+{%endcomment%}
+<ul class="list-inline text-center">
+<li>试卷总分：{{answer.exam.count}} </li>                     
+<li>你的得分：{{answer.score}}</li>
+</ul>
+
+	<li>选择题</li>
+	{%if choicequestionans%}
+	<p>总得分：{{answer.select_score}}</p>
+	<p>答题详情：</p>
+	<table class="table table-bordered">
+		<thead>
+		<tr>
+			<th>题号</th>
+			<th>标准答案</th>
+			<th>你的作答</th>
+			<th>答题结果</th>
+		</tr>
+		</thead>
+		<tbody>
+		{%for ans in choicequestionans%}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{ans.choicequestion.ans}}</td>
+			<td>{{ans.ans}}</td>
+			<td>
+				{%if ans.state = True%}
+					正确
+				{%elif ans.state = False%}
+					错误
+				{%elif ans.state = None%}
+					待判
+				{%endif%}
+			</td>
+		</tr>
+		{%endfor%}
+		</tbody>
+	{%else%}
+	<p>试卷不包含选择题！</p>
+	{%endif%}
+	</table>
+	<li>填空题</li>
+	{%if fillquestionans%}
+	<p>总得分：{{answer.fill_score}}</p>
+	<p>答题详情：</p>
+	<table class="table table-bordered">
+		<thead>
+		<tr>
+			<th>题号</th>
+			<th>标准答案</th>
+			<th>你的作答</th>
+			<th>答题结果</th>
+		</tr>
+		</thead>
+		<tbody>
+		{%for ans in fillquestionans%}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{ans.fillquestion.ans}}</td>
+			<td>{{ans.ans}}</td>
+			<td>
+				{%if ans.state = True%}
+					正确
+				{%elif ans.state = False%}
+					错误
+				{%elif ans.state = None%}
+					待判
+				{%endif%}
+			</td>
+		</tr>
+		{%endfor%}
+		</tbody>
+	</table>
+	{%else%}
+	<p>试卷不包含填空题！</p>
+	{%endif%}
+	<li>判断题</li>
+	{%if tfquestionans%}
+	<p>总得分：{{answer.tf_score}}</p>
+	<p>答题详情：</p>
+	<table class="table table-bordered">
+		<thead>
+		<tr>
+			<th>题号</th>
+			<th>标准答案</th>
+			<th>你的作答</th>
+			<th>答题结果</th>
+		</tr>
+		</thead>
+		<tbody>
+		{%for ans in tfquestionans%}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{ans.Tfquestion.ans}}</td>
+			<td>{{ans.ans}}</td>
+			<td>
+				{%if ans.state = True%}
+					正确
+				{%elif ans.state = False%}
+					错误
+				{%elif ans.state = None%}
+					待判
+				{%endif%}
+			</td>
+		</tr>
+		{%endfor%}
+		</tbody>
+	</table>
+	{%else%}
+	<p>试卷不包含判断题！</p>
+	{%endif%}
+	<li>简答题</li>
+	{%if saquestionans%}
+	<p>总得分：{{answer.sa_score}}</p>
+	<p>答题详情：</p>
+	<table class="table table-bordered">
+		<thead>
+		<tr>
+			<th>题号</th>
+			<th>标准答案</th>
+			<th>你的作答</th>
+			<th>答题结果</th>
+		</tr>
+		</thead>
+		<tbody>
+		{%for ans in saquestionans%}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{ans.saquestion.ans}}</td>
+			<td>{{ans.ans}}</td>
+			<td>
+				{%if ans.state = True%}
+					正确
+				{%elif ans.state = False%}
+					错误
+				{%elif ans.state = None%}
+					待判
+				{%endif%}
+			</td>
+		</tr>
+		{%endfor%}
+		</tbody>
+	</table>
+	{%else%}
+	<p>试卷不包含简答题！</p>
+	{%endif%}
+	<p>答案生效情况：{{answer.state}}</p>
+	{%if not answer.state%}
+		{%if perms.data.add_choicequestion%}
+		<p>试卷待评判！<a href="{%url 'data:JudgeAnswer' answer.id%}">点击判卷</p>
+		{%endif%}
+	{%endif%}
+{%endblock%}

@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title></title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap-theme.min.css"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<style> 
+body{text-align:center} 
+</style>
+
+<div class="container">
+    <div class="container">
+       <div class="row">
+            <div class="col-md-12">
+               <h1 class="text-center">
+				考试管理系统
+			   </h1>
+			   <h3 class="text-center text-info">
+				 请选择登入，如果您还未加入我们，可以点击注册进行快速注册
+			   </h3>
+				<p><a href="{%url 'data:Login'%}"><button class="btn btn-large btn-primary" type="button">登录</button></a></p>
+ 			    <p><a href="{%url 'data:NewUser'%}"><button class="btn btn-large btn-primary" type="button">快速注册</button></a></p>
+            </div>
+        </div>
+     </div>
+  </div>
+</div>
+
+
+</body>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title></title>
+ <!-- 新 Bootstrap 核心 CSS 文件 -->
+ <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+ <!-- 可选的Bootstrap主题文件（一般不使用） -->
+ <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap-theme.min.css"></script>
+
+ <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+ <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+
+ <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+ <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+{% extends 'data/base.html' %}
+{%block content%}
+<h1>Exam List</h1>
+<form role="form" action="" method="post">
+	    {% csrf_token %}
+	    {{ form.as_table}}
+	    <button type="submit" class="btn btn-sm btn-primary">筛选</button>
+		
+</form>
+<table class="table table-hover">
+	<thead>
+	<tr>
+		<th>名称</th>
+		<th>科目</th>
+		<th>难度</th>
+		<th>日期</th>
+		<th>答卷</th>
+		<th>分数设置</th>
+	</tr>
+	</thead>
+	<tbody>
+	{%for exam in exams%}
+	<tr>
+		<td><a href="{% url 'data:ExamDetail' exam.id %}">{{exam.name}}</a></td>
+		<td>{{exam.subject}}</td>
+		<td>{{exam.get_diffculty_display}}</td>
+		<td>{{exam.date}}</td>
+		<td><a href="{%url 'data:AnswerExam' exam.id %}">AnswerExam</a></td>
+		{%if perms.data.add_choicequestion%}
+		<td><a href="{%url 'data:SetMark' exam.id %}">SetMark</a></td>
+		{%endif%}
+	</tr>
+	{%endfor%}
+	<tbody>
+</table>
+	<nav style="text-align: center">
+	<ul class="pagination">
+	{% if exams.has_previous %}
+	        <li><a class='paginator' title='上一页' href='?page={{ exams.previous_page_number }}'><span>&lt;&lt;</span></a></li>
+	{% endif %}
+	{% for page in exams.paginator.page_range %}
+	     {% if page = exams.number %}
+	         <li><a class='paginator_current' title='当前页:{{ page }}'><span>{{ page }}</span></a></li>
+	     {% else %}
+	         <li><a class='paginator' href='?page={{ page }}' title='{{ page }}'><span>{{ page }}</span></a></li>
+	     {% endif %}
+	{% endfor %}
+	{% if exams.has_next %}
+	     <li><a class='paginator' title='下一页' href='?page={{ exams.next_page_number }}'><span>&gt;&gt;</span></a></li>
+	{% endif %}
+	</ul>
+	</nav>
+{%endblock%}
+</body>
+</html>

@@ -1,0 +1,12 @@
+{% extends 'data/base.html' %}
+{%block content%}
+<h1>Regester Success!</h1>
+<p>welcome {{user.username}}!</p>
+<p>you can set up you own detail or choose to finish quick Sign</p>
+{%if character = 'student'%}
+	<li><a href="{%url 'data:StudentUpdate'%}">fill in detail</a></li>
+{%elif character = 'teacher' %}
+	<li><a href="{%url 'data:TeacherUpdate'%}">fill in detail</a></li>
+{%endif%}
+<li><a href="{%url 'data:HomePage' %}">Quick Sign</a></li>
+{%endblock%}
